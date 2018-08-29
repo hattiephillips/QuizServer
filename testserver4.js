@@ -8,14 +8,35 @@ app.use(bodyParser.urlencoded({
 extended: true
 }));
 app.use(bodyParser.json());
+//now going to making requests for data from this server via another server (the PhoneGap server).
+app.use(function(req, res, next) {
+res.header("Access-Control-Allow-Origin", "*");
+res.header("Access-Control-Allow-Headers", "X-Requested-With");
+next();
+});
 
 //Add the following code to actually do the POST request to server.js and upload this to Ubuntu and GitHub (note the use of POST this time!)
 app.post('/uploadData',function(req,res){
 // note that we are using POST here as we are uploading data
 // so the parameters form part of the BODY of the request rather than the RESTful API
 console.dir(req.body);
-// for now, just echo the request back to the client
-res.send(req.body);
+//Adapt the POST command on httpServer.js so that your code connects to the database and inserts a record into the formData table, as follows:
+pool.connect(function(err,client,done) {
+if(err){
+console.log("not able to get connection "+ err);
+res.status(400).send(err);
+}
+var querystring = "INSERT into formdata (name,surname,module) values ('" + req.body.name + "','" + req.body.surname + "','" + req.body.module+"')";
+console.log(querystring);
+client.query( querystring,function(err,result) {
+done();
+if(err){
+console.log(err);
+res.status(400).send(err);
+}
+res.status(200).send("row inserted");
+});
+});
 });
 
 //Import the required connectivity code and set up a database connection
