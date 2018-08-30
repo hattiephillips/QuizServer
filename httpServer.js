@@ -91,9 +91,9 @@ if(err){
 console.log(err);
 res.status(400).send(err);
 }
-// for (var i =0; i< result.rows.length ;i++) {
-// console.log(result.rows[i].string_agg);
-// }
+for (var i =0; i< result.rows.length ;i++) {
+console.log(result.rows[i].string_agg);
+ }
 thecolnames = result.rows[0].string_agg;
 colnames = thecolnames;
 console.log("the colnames "+thecolnames);
