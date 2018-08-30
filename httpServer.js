@@ -9,13 +9,13 @@ app.use(bodyParser.urlencoded({
 extended: true
 }));
 app.use(bodyParser.json());
-//now going to making requests for data from this server via another server (the PhoneGap server).
-app.use(function(req, res, next) {
-res.header("Access-Control-Allow-Origin", "*");
-res.header("Access-Control-Allow-Headers", "X-Requested-With");
-res.setHeader("Acess-Control-Allow-Methods", 'GET,PUT,POST,DELETE');
-next();
-});
+	// adding functionality to allow cross-domain queries when PhoneGap is running a server
+	app.use(function(req, res, next) {
+		res.setHeader("Access-Control-Allow-Origin", "*");
+		res.setHeader("Access-Control-Allow-Headers", "X-Requested-With");
+		res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+		next();
+	});
 
 //Add the following code to actually do the POST request to server.js and upload this to Ubuntu and GitHub (note the use of POST this time!)
 app.post('/uploadData',function(req,res){
@@ -78,8 +78,11 @@ app.get('/',function (req,res) {
 
 var fs=require('fs')
 // read in the file and force it to be a string by adding “” at the beginning
-var configtext =""+fs.readFileSync("/home/studentuser/certs/postGISConnection.js");
-// now convert the configruation file into the correct format -i.e. a name/value pair array
+// read in the file and force it to be a string by adding “” at the beginning
+var configtext =
+""+fs.readFileSync("/home/studentuser/certs/postGISConnection.js");
+// now convert the configruation file into the correct format -i.e. a name/value
+pair array
 var configarray = configtext.split(",");
 var config = {};
 for (var i = 0; i < configarray.length; i++) {
