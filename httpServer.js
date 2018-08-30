@@ -33,8 +33,7 @@ app.post('/uploadAnswer',function(req,res){
 	}
 	res.status(200).send("row insrted");
 });
-});
-});
+
 
 //log requests
 app.use(function (req,res,next) {
