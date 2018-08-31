@@ -27,8 +27,8 @@ pool.connect(function(err,client,done) {
  res.status(400).send(err);
  }
  var geometrystring = "st_geomfromtext('POINT(" + req.body.longitude + " " + req.body.latitude + ")'";
- var querystring = "INSERT into quizlet (Question,AnswerOne,AnswerTwo,AnswerThree,AnswerFour,Correct, geom) values ('";
- querystring = querystring + req.body.Question + "','" + req.body.AnswerOne + "','" + req.body.AnswerTwo + "','" + req.body.AnswerThree + "','" + req.body.AnswerFour + "','" + req.body.Correct + "'," + geometrystring + "))";
+ var querystring = "INSERT into quizdata (question,answerone,answertwo,answerthree,answerfour,correct, geom) values ('";
+ querystring = querystring + req.body.question + "','" + req.body.answerone + "','" + req.body.answertwo + "','" + req.body.answerthree + "','" + req.body.answerfour + "','" + req.body.correct + "'," + geometrystring + "))";
  console.log(querystring);
  client.query( querystring,function(err,result) {
 done();
